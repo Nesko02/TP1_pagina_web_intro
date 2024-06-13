@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Autos</title>
+    <style>
+        .auto {
+            border: 1px solid #ddd;
+            padding: 16px;
+            margin: 16px;
+            text-align: center;
+        }
+        .auto img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Autos</h1>
+    <div id="autos"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('http://localhost:5000/')
+                .then(response => response.json())
+                .then(data => {
+                    const autosDiv = document.getElementById('autos');
+                    data.forEach(auto => {
+                        const autoDiv = document.createElement('div');
+                        autoDiv.className = 'auto';
+                        autoDiv.innerHTML = `
+                            <h2>${auto.marca} ${auto.modelo}</h2>
+                            <img src="${auto.foto_url}" alt="${auto.marca} ${auto.modelo}">
+                            <p>Kilómetros: ${auto.kilometros}</p>
+                            <p>Precio: $${auto.precio}</p>
+                        `;
+                        autosDiv.appendChild(autoDiv);
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
