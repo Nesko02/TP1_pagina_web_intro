@@ -17,7 +17,11 @@ class Auto(db.Model):
     precio = db.Column(db.Numeric(10, 2), nullable=False)
     foto_url = db.Column(db.String(255))
 
+
+
+
 @app.route('/', methods=['GET'])
+
 def get_autos():
     autos = Auto.query.all()
     return jsonify([{
@@ -28,6 +32,22 @@ def get_autos():
         'precio': str(auto.precio),
         'foto_url': auto.foto_url
     } for auto in autos])
+
+@app.route('/info_autos/<id>', methods=['GET'])
+def get_auto_detalle(id):
+    auto = Auto.query.get(id)
+    if auto is None:
+        return None
+    return jsonify({
+        'id': auto.id,
+        'marca': auto.marca,
+        'modelo': auto.modelo,
+        'kilometros': auto.kilometros,
+        'precio': str(auto.precio),
+        'foto_url': auto.foto_url
+    })
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
