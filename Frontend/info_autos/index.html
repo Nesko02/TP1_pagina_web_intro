@@ -12,9 +12,14 @@
             margin: 16px;
             text-align: center;
         }
+
         .auto-detalle img {
             max-width: 100%;
             height: auto;
+        }
+
+        .btn-group {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -46,9 +51,11 @@
                                 <img src="${auto.foto_url}" alt="${auto.marca} ${auto.modelo}">
                                 <p>Kilómetros: ${auto.kilometros}</p>
                                 <p>Precio: $${auto.precio}</p>
-                                <a href="formulario_reserva/index.html?" class="btn btn-success">Reservar</a>
+                                <a href="formulario_reserva/index.html?id=${auto.id}" class="btn btn-success">Reservar</a>
+                                <a href="editar_auto/index.html?id=${auto.id}" class="btn btn-warning">Editar Auto</a>
+                                <a href="editar_auto/index.html?id=${auto.id}" class="btn btn-danger">Eliminar</a>
                             `;
-                            autosDetalleDiv.appendChild(autoDiv);
+                            autosDetalleDiv.append(autoDiv);
                         })
                         .catch(error => {
                             console.error('Error al obtener los detalles del auto:', error);
