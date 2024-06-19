@@ -30,6 +30,9 @@
             <div class="col">
                 <h1>Lista de Autos</h1>
             </div>
+            <div class="col-4 text-end">
+                <a href="/info_autos/agregar_auto/index.html" class="btn btn-primary btn-lg mt-2">Agregar</a>
+            </div>
         </div>
     </div>
 
@@ -50,7 +53,7 @@
                                 <img src="${auto.foto_url}" alt="${auto.marca} ${auto.modelo}">
                             </a>
                             <p>Kilómetros: ${auto.kilometros}</p>
-                            <p>Precio: $ ${auto.precio}</p>
+                            <p>Precio: U$S ${auto.precio}</p>
                         `;
                         autosDiv.append(autoDiv);
                     });
