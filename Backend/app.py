@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
@@ -18,10 +18,7 @@ class Auto(db.Model):
     foto_url = db.Column(db.String(255))
 
 
-
-
 @app.route('/', methods=['GET'])
-
 def get_autos():
     autos = Auto.query.all()
     return jsonify([{
@@ -46,6 +43,37 @@ def get_auto_detalle(id):
         'precio': str(auto.precio),
         'foto_url': auto.foto_url
     })
+
+@app.route('/actualizar_auto/<id>', methods=['PUT'])
+def actualizar_auto(id):
+    data = request.json
+    auto = Auto.query.get(id)
+    if not auto:
+        return jsonify({'error': 'Auto no encontrado'}), 404
+
+    auto.marca = data.get('marca', auto.marca)
+    auto.modelo = data.get('modelo', auto.modelo)
+    auto.kilometros = data.get('kilometros', auto.kilometros)
+    auto.precio = data.get('precio', auto.precio)
+
+    db.session.commit()
+
+    return jsonify({'mensaje': 'Auto actualizado correctamente'})
+
+@app.route('/agregar_auto', methods=['POST'])
+def agregar_auto():
+    data = request.json
+    nuevo_auto = Auto(
+        marca=data['marca'],
+        modelo=data['modelo'],
+        kilometros=data['kilometros'],
+        precio=data['precio'],
+        foto_url=data['foto_url']
+    )
+    db.session.add(nuevo_auto)
+    db.session.commit()
+
+    return jsonify({'mensaje': 'Auto agregado correctamente', 'id': nuevo_auto.id})
 
 
 
