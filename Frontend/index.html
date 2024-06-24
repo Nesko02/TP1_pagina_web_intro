@@ -8,7 +8,7 @@
     
     <style>
         .auto {
-            border: 1px solid #ddd;
+            border: 1px solid rgb(106, 143, 245);
             padding: 16px;
             margin: 16px;
             text-align: center;
@@ -21,17 +21,55 @@
             text-decoration: none;
             color: inherit;
         }
+
+        .navbar-custom {
+            height: 80px;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+        }
+
+        .navbar-brand img {
+            height: 70px; 
+        }
+
     </style>
 
 </head>
 <body data-bs-theme="dark">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-custom">
+        <div class="container-fluid justify-content-center">
+
+            <a class="navbar-brand" href="/">
+                <img src="https://www.carone.com.ar/wp-content/uploads/2021/10/logo_carone_blanco1.png" alt="Logo de la Empresa" height="40">
+            </a>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/info_autos/contacto/index.html">Contactos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/info_autos/agregar_auto/index.html">Publicar Auto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/info_autos/formulario_reserva/index.html">Escribenos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>Lista de Autos</h1>
-            </div>
-            <div class="col-4 text-end">
-                <a href="/info_autos/agregar_auto/index.html" class="btn btn-primary btn-lg mt-2">Agregar</a>
+                <h1>Nuestro Catalogo</h1>
             </div>
         </div>
     </div>
@@ -62,5 +100,25 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <footer class="bg-primary text-white text-center py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2024 Car One. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <a href="/politica_privacidad.html" class="text-white">Política de privacidad</a>
+                        <a href="/terminos_condiciones.html" class="text-white">Términos y condiciones</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
+
+
+
