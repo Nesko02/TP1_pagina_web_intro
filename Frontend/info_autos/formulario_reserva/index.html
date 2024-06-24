@@ -9,7 +9,9 @@
     <style>
     </style>
 </head>
-<body>
+
+<body data-bs-theme="dark">
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -18,7 +20,7 @@
                         <h3 class="card-title text-center">Formulario de Reserva</h3>
                     </div>
                     <div class="card-body">
-                        <form id="formulario-reserva">
+                        <form id="formulario-reserva" method="POST" action="/agregar_consulta">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" required>
@@ -35,7 +37,15 @@
                                 <label for="telefono" class="form-label">Teléfono</label>
                                 <input type="tel" class="form-control" id="telefono" name="telefono" required>
                             </div>
-                            <button type="button" class="btn btn-outline-success">Confirmar Reserva</button>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mensaje" class="form-label">Consulta</label>
+                                <textarea id="mensaje" name="mensaje" class="form-control" rows="4"></textarea>
+                            </div>
+                            <button type="submit" id="agregar-btn" class="btn btn-outline-success">Confirmar Reserva</button>
                         </form>
                     </div>
                 </div>
@@ -43,6 +53,59 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('formulario-reserva').addEventListener('submit', function() {
+
+                event.preventDefault();
+
+                const nombre = document.getElementById('nombre').value;
+                const apellido = document.getElementById('apellido').value;
+                const dni = document.getElementById('dni').value;
+                const telefono = document.getElementById('telefono').value;
+                const email = document.getElementById('email').value;
+                const mensaje = document.getElementById('mensaje').value;
+
+                fetch('http://localhost:5000/agregar_reserva', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre,
+                        apellido: apellido,
+                        dni: dni,
+                        telefono: telefono,
+                        email: email,
+                        mensaje: mensaje
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error al agregar la reserva:', data.error);
+                    } else {
+                        alert('Reserva agregada correctamente');
+                        window.location.href = '/';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al agregar la reserva:', error);
+                });
+            });
+        });
+    </script>
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+
 </body>
+
+
+
 </html>
