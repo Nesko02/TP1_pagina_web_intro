@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
@@ -75,6 +75,16 @@ def agregar_auto():
 
     return jsonify({'mensaje': 'Auto agregado correctamente', 'id': nuevo_auto.id})
 
+@app.route('/eliminar_auto/<id>', methods=['DELETE'])
+def eliminar_auto(id):
+    auto = Auto.query.get(id)
+    if not auto:
+        return jsonify({'error': 'Auto no encontrado'}), 404
+
+    db.session.delete(auto)
+    db.session.commit()
+
+    return jsonify({'mensaje': 'Auto eliminado correctamente'})
 
 
 if __name__ == '__main__':
