@@ -17,6 +17,14 @@ class Auto(db.Model):
     precio = db.Column(db.Numeric(10, 2), nullable=False)
     foto_url = db.Column(db.String(255))
 
+class Opinion(db.Model):
+    __tablename__ = 'opiniones'
+    id = db.Column(db.Integer, primary_key=True)
+    auto_id = db.Column(db.Integer, db.ForeignKey('autos.id'), nullable=False)
+    opinion = db.Column(db.Text, nullable=False)
+    autor = db.Column(db.String(255), nullable=False)
+    estrellas = db.Column(db.Integer, nullable=False)
+
 
 @app.route('/', methods=['GET'])
 def get_autos():
@@ -85,6 +93,39 @@ def eliminar_auto(id):
     db.session.commit()
 
     return jsonify({'mensaje': 'Auto eliminado correctamente'})
+
+
+@app.route('/opiniones/<auto_id>', methods=['GET'])
+def get_opiniones(auto_id):
+    opiniones = Opinion.query.filter_by(auto_id=auto_id).all()
+    return jsonify([{
+        'id': opinion.id,
+        'auto_id': opinion.auto_id,
+        'opinion': opinion.opinion,
+        'autor': opinion.autor,
+        'estrellas': opinion.estrellas
+    } for opinion in opiniones])
+
+@app.route('/opiniones_generales', methods=['GET'])
+def get_todas_opiniones():
+    autos = Auto.query.all()
+    data = []
+    for auto in autos:
+        opiniones = Opinion.query.filter_by(auto_id=auto.id).all()
+        opiniones_data = [{
+            'id': opinion.id,
+            'opinion': opinion.opinion,
+            'autor': opinion.autor,
+            'estrellas': opinion.estrellas
+        } for opinion in opiniones]
+        data.append({
+            'auto_id': auto.id,
+            'marca': auto.marca,
+            'modelo': auto.modelo,
+            'opiniones': opiniones_data
+        })
+    return jsonify(data)
+
 
 
 if __name__ == '__main__':
