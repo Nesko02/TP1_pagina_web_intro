@@ -46,7 +46,6 @@
         .navbar-nav .nav-item {
             margin: 0 15px;
         }
-
     </style>
 </head>
 <body data-bs-theme="dark">
@@ -86,21 +85,67 @@
         <div id="autos-detalle" class="row"></div>
     </div>
 
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirmación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas eliminar este auto?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de éxito -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Éxito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Auto eliminado correctamente
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="modal-ok-btn">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        let autoIdToDelete;
 
         function eliminarAuto(id) {
-            if (confirm('¿Estás seguro de que deseas eliminar este auto?')) {
-                fetch(`http://localhost:5000/eliminar_auto/${id}`, {
+            autoIdToDelete = id;
+            const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+            confirmModal.show();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+                fetch(`http://localhost:5000/eliminar_auto/${autoIdToDelete}`, {
                     method: 'DELETE'
                 })
                 .then(response => response.json())
                 .then(data => {
+                    const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+                    confirmModal.hide();
+
                     if (data.mensaje) {
-                        alert(data.mensaje);
-                        window.location.href = '/';
-                    } 
-                    
-                    else if (data.error) {
+                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
+                    } else if (data.error) {
                         alert(data.error);
                     }
                 })
@@ -108,11 +153,12 @@
                     console.error('Error al eliminar el auto:', error);
                     alert('Error al eliminar el auto');
                 });
-            }
-        }
+            });
 
+            document.getElementById('modal-ok-btn').addEventListener('click', function() {
+                window.location.href = '/';
+            });
 
-        document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
             const autoIds = params.getAll('id');
             

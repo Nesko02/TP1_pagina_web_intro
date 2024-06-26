@@ -18,8 +18,8 @@
             height: 120px;
             font-size: 2rem;
             margin-bottom: 30px;
-            
         }
+
         .navbar-brand {
             font-size: 1.5rem;
         }
@@ -31,16 +31,12 @@
         .navbar-nav .nav-item {
             margin: 0 15px;
         }
-        
     </style>
-
-
 </head>
 <body data-bs-theme="dark">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-custom">
         <div class="container-fluid justify-content-center">
-
             <a class="navbar-brand" href="/">
                 <img src="https://i.postimg.cc/wBzNsNhF/Preview-3-removebg-preview.png" alt="Logo de la Empresa" height="40">
             </a>
@@ -63,7 +59,6 @@
             </div>
         </div>
     </nav>
-
 
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -102,6 +97,25 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Éxito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Auto agregado correctamente
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="modal-ok-btn">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('agregar-btn').addEventListener('click', function() {
@@ -129,13 +143,17 @@
                     if (data.error) {
                         console.error('Error al agregar el auto:', data.error);
                     } else {
-                        alert('Auto agregado correctamente');
-                        window.location.href = '/';
+                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
                     }
                 })
                 .catch(error => {
                     console.error('Error al agregar el auto:', error);
                 });
+            });
+
+            document.getElementById('modal-ok-btn').addEventListener('click', function() {
+                window.location.href = '/';
             });
         });
     </script>
@@ -160,4 +178,3 @@
     
 </body>
 </html>
-
