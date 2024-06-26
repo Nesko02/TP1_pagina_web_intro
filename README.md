@@ -18,7 +18,7 @@ Editar un auto:
 Borrar un auto:
 
 - Seleccionar el auto.
-- Presionar el boton 'eliminar.
+- Presionar el boton 'eliminar'.
 - Confirmar la solicitud y listo.
 
 Opiniones:
