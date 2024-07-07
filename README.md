@@ -36,3 +36,8 @@ Pagina enfocada al uso del administrador, es decir, del dueño de la agencia de 
 - Se muestra al usuario el numero de telefono, email de la agencia y ubicacion.
 - Tambien las redes sociales como: Facebook, Instagram, Youtube y LinkedIn.
 - Ademas de un mapa interactivo para visualizar la ubicacion de la agencia.
+
+- ## Apartado Opiniones:
+
+- Presionar en la barra de navegacion el apartado 'opiniones'.
+- Y puedes visualizar la pagina de opiniones y ver la totalidad de opiniones que tienen todos los autos.
