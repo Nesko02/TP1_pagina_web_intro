@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
@@ -20,7 +20,7 @@ class Auto(db.Model):
 class Opinion(db.Model):
     __tablename__ = 'opiniones'
     id = db.Column(db.Integer, primary_key=True)
-    auto_id = db.Column(db.Integer, db.ForeignKey('autos.id'), nullable=False)
+    auto_id = db.Column(db.Integer, db.ForeignKey('autos.id', ondelete='CASCADE'), nullable=False)
     opinion = db.Column(db.Text, nullable=False)
     autor = db.Column(db.String(255), nullable=False)
     estrellas = db.Column(db.Integer, nullable=False)
@@ -41,8 +41,7 @@ def get_autos():
 @app.route('/info_autos/<id>', methods=['GET'])
 def get_auto_detalle(id):
     auto = Auto.query.get(id)
-    if auto is None:
-        return None
+
     return jsonify({
         'id': auto.id,
         'marca': auto.marca,
@@ -56,13 +55,12 @@ def get_auto_detalle(id):
 def actualizar_auto(id):
     data = request.json
     auto = Auto.query.get(id)
-    if not auto:
-        return jsonify({'error': 'Auto no encontrado'}), 404
 
     auto.marca = data.get('marca', auto.marca)
     auto.modelo = data.get('modelo', auto.modelo)
     auto.kilometros = data.get('kilometros', auto.kilometros)
     auto.precio = data.get('precio', auto.precio)
+    auto.foto_url = data.get('foto_url', auto.foto_url)
 
     db.session.commit()
 
@@ -88,6 +86,10 @@ def eliminar_auto(id):
     auto = Auto.query.get(id)
     if not auto:
         return jsonify({'error': 'Auto no encontrado'}), 404
+    
+    opiniones = Opinion.query.filter_by(auto_id=id).all()
+    for opinion in opiniones:
+        db.session.delete(opinion)
 
     db.session.delete(auto)
     db.session.commit()
